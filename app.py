@@ -9,20 +9,14 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def main():
-    st.set_page_config(page_title="ERP Export", page_icon="📤")
-    st.title("📤 Export ERP Data to Google Sheets")
+    st.set_page_config(page_title="POS Data Export", page_icon="📤")
+    st.title("📤 Export POS Data to Google Sheets")
 
     data_type = st.selectbox("Select data type to export:", [
-        "Inventory Summary",
-        "Inventory Details",
-        "Order Confirmations",
-        "Deliveries",
-        "Outbound Logistic Charges"
-        "Sales Invoices",
-        "Customer Payments",
-        "Purchase Orders",
-        "CAN Details",
-        "Inbound Logistic Charges",
+        "Confirmed Orders",           # Đơn hàng đã nhận
+        "Landed Cost",                # Giá vốn hàng bán
+        "Recognized Revenue",         # Doanh thu đã ghi nhận
+        "Backlog"                     # Đơn hàng chưa hoàn tất
     ])
 
     if st.button("Export to Google Sheets"):

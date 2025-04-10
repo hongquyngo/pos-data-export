@@ -1,0 +1,34 @@
+# ========================
+# 🔁 VENV – Virtual Environment Commands
+# ========================
+
+# ✅ 1. Tạo môi trường ảo mới tên là "venv"
+python -m venv venv
+# Dòng này tạo một thư mục "venv/" chứa môi trường Python độc lập cho project
+
+# ✅ 2. Kích hoạt môi trường ảo (trên Windows – CMD hoặc PowerShell)
+venv\Scripts\activate
+# Sau khi kích hoạt thành công, terminal sẽ hiển thị tiền tố (venv)
+
+# ✅ (Tuỳ chọn) Nếu PowerShell bị chặn script, hãy tạm mở quyền:
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
+# Cho phép chạy các script .ps1 trong phiên PowerShell hiện tại (an toàn)
+
+# ✅ 3. Cài đặt các thư viện trong requirements.txt
+pip install -r requirements.txt
+# Cài tất cả dependencies đã liệt kê
+
+# ✅ 4. Freeze danh sách các thư viện hiện tại vào file requirements.txt
+pip freeze > requirements.txt
+# Rất hữu ích khi muốn chia sẻ project cho người khác hoặc deploy
+
+# ✅ 5. Thoát khỏi môi trường ảo
+deactivate
+# Quay lại dùng Python hệ thống
+
+# ✅ 6. Xoá môi trường ảo (nếu không cần nữa)
+# ⚠️ Lưu ý: hành động này không thể khôi phục, hãy chắc chắn bạn không cần "venv"
+rm -r venv              # Dùng trên Git Bash/macOS/Linux
+rmdir /s /q venv        # Dùng trên Windows CMD
+
+# ========================
