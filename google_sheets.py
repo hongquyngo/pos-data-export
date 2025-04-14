@@ -36,10 +36,11 @@ def export_to_google_sheets(data: pd.DataFrame, data_type: str) -> str:
     sheets_api = service.spreadsheets()
 
     # Tạo tên sheet mới
-    vn_tz = pytz.timezone("Asia/Ho_Chi_Minh")
-    now = datetime.datetime.now(vn_tz).strftime("%Y-%m-%d_%H%M")
+    # vn_tz = pytz.timezone("Asia/Ho_Chi_Minh")
+    # now = datetime.datetime.now(vn_tz).strftime("%Y-%m-%d_%H%M")
     prefix = data_type.lower().replace(" ", "_")
-    new_sheet_title = f"{prefix}_{now}"
+    # new_sheet_title = f"{prefix}_{now}"
+    new_sheet_title = f"{prefix}"
 
     try:
         # Kiểm tra sheet đã tồn tại chưa
