@@ -1,2 +1,2 @@
-# erp-data-export
-Web app to export ERP data to Google Sheets
+#pos-data-export
+Web app to export POS data to Google Sheets
