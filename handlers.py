@@ -44,7 +44,6 @@ def enrich_pos_data(df: pd.DataFrame) -> pd.DataFrame:
     - Gross Profit by Split (USD)
     - Invoice Month (YYYY-MM)
     """
-    from handlers import count_decimal_zeros, get_latest_exchange_rate
     import numpy as np
 
     exchange_cache = {}

@@ -32,3 +32,49 @@ rm -r venv              # Dùng trên Git Bash/macOS/Linux
 rmdir /s /q venv        # Dùng trên Windows CMD
 
 # ========================
+
+# ========================
+# 💻 GIT CLI – Cơ bản khi làm việc với Git trên VS Code
+# ========================
+
+# ✅ 1. Kiểm tra trạng thái hiện tại của repo (file nào thay đổi, chưa commit)
+git status
+
+# ✅ 2. Thêm tất cả file đã thay đổi vào "staging area" để chuẩn bị commit
+git add .
+# Nếu chỉ muốn add một file cụ thể: git add ten_file.py
+
+# ✅ 3. Ghi lại thay đổi (commit) với mô tả ngắn
+git commit -m "Mô tả thay đổi"
+# Ví dụ: git commit -m "Add export function to Google Sheets"
+
+# ✅ 4. Đẩy (push) thay đổi từ local lên GitHub (nhánh main)
+git push origin main
+# Lần đầu tiên dùng: git push -u origin main
+
+# ✅ 5. Kéo (pull) các thay đổi mới nhất từ GitHub về máy local
+git pull origin main
+
+# ✅ 6. Kiểm tra lịch sử các lần commit
+git log
+# Nhấn "q" để thoát khỏi màn hình log
+
+# ✅ 7. Khởi tạo Git repo trong thư mục local (nếu là project mới)
+git init
+
+# ✅ 8. Kết nối repo local với GitHub repo (chỉ cần làm 1 lần)
+git remote add origin https://github.com/<tên_user>/<tên_repo>.git
+
+# ✅ 9. Đổi tên nhánh mặc định thành "main" (nếu cần)
+git branch -M main
+
+# ✅ 10. Clone repo từ GitHub về máy
+git clone https://github.com/<tên_user>/<tên_repo>.git
+
+# ✅ 11. Xem danh sách remote đang kết nối
+git remote -v
+
+# ✅ 12. Xóa một remote (nếu gắn nhầm GitHub repo)
+git remote remove origin
+
+# ========================
