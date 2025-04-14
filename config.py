@@ -13,7 +13,7 @@ def is_running_on_cloud():
 if is_running_on_cloud():
     DB_CONFIG = st.secrets["DB_CONFIG"]
     EXCHANGE_RATE_API_KEY = st.secrets["API"]["EXCHANGE_RATE_API_KEY"]
-    GOOGLE_SERVICE_ACCOUNT_JSON = st.secrets["GOOGLE_SERVICE_ACCOUNT_JSON"]
+    GOOGLE_SERVICE_ACCOUNT_JSON = st.secrets["GOOGLE"]["SERVICE_ACCOUNT_JSON"]
 else:
     DB_CONFIG = {
         "host": "erp-all-production.cx1uaj6vj8s5.ap-southeast-1.rds.amazonaws.com",
