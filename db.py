@@ -17,7 +17,8 @@ def get_db_engine():
     logger.info("🔌 Connecting to database...")
 
     user = DB_CONFIG["user"]
-    password = quote_plus(DB_CONFIG["password"])  # Encode password để tránh lỗi ký tự đặc biệt
+    password = quote_plus(str(DB_CONFIG["password"]))
+    # password = quote_plus(DB_CONFIG["password"])  # Encode password để tránh lỗi ký tự đặc biệt
     host = DB_CONFIG["host"]
     port = DB_CONFIG["port"]
     database = DB_CONFIG["database"]
