@@ -6,7 +6,7 @@ from urllib.parse import quote_plus
 import logging
 
 from config import DB_CONFIG
-from handlers import enrich_pos_data  # dùng để xử lý Landed Cost enrich thêm dữ liệu
+from handlers import enrich_pos_data, enrich_backlog_data  # dùng để xử lý Landed Cost enrich thêm dữ liệu
 
 # Cấu hình logger cho module này
 logger = logging.getLogger(__name__)
@@ -56,6 +56,8 @@ def get_data_by_type(data_type: str, engine) -> pd.DataFrame:
         elif data_type == "Backlog":
             query = "SELECT * FROM prostechvn.backlog_full_view;"
             df = pd.read_sql(query, engine)
+
+            df = enrich_backlog_data(df)
 
         elif data_type == "Broker Commission":
             query = "SELECT * FROM prostechvn.broker_commission_earning_view;"
