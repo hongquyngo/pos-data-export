@@ -30,6 +30,106 @@ def get_latest_exchange_rate(_from: str, _to: str) -> float:
     rate = response.json()["rates"][_to]
     return float(rate)
 
+def enrich_backlog_data(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Enrich backlog data with:
+    - USD Exchange Rate (from currency to USD)
+    - Average Landed Cost (USD)
+    - GP (%) = Landed Cost USD / Standard Unit Price (USD)
+    - Total Backlog Landed Cost (USD)
+    - Total Backlog GP (USD)
+    - ETD Month (Jan, Feb, ...)
+    """
+    from datetime import datetime
+
+    exchange_cache = {}
+    usd_rates = []
+    avg_landed_cost_usd = []
+    gp_percent = []
+    total_backlog_landed_cost_usd = []
+    total_backlog_gp_usd = []
+    etd_months = []
+
+    for _, row in df.iterrows():
+        # --- 1. Lấy thông tin cơ bản ---
+        currency = row.get("Landed Cost Currency")
+        try:
+            avg_cost_local = float(row.get("Average Landed Cost", 0))
+        except:
+            avg_cost_local = 0.0
+
+        try:
+            backlog_qty = float(row.get("Backlog Quantity", 0))
+        except:
+            backlog_qty = 0.0
+
+        try:
+            backlog_amt_usd = float(row.get("Total Backlog Amount (USD)", 0))
+        except:
+            backlog_amt_usd = 0.0
+
+        try:
+            std_price_usd = float(row.get("Standard Unit Price (USD)", 0))
+        except:
+            std_price_usd = 0.0
+
+        # --- 2. Tỷ giá USD ---
+        if currency not in exchange_cache:
+            try:
+                rate = get_latest_exchange_rate("USD", currency)
+                exchange_cache[currency] = rate
+            except Exception as e:
+                exchange_cache[currency] = None
+                print(f"⚠️ Error getting exchange rate for {currency}: {e}")
+        rate = exchange_cache[currency]
+        usd_rates.append(rate)
+
+        # --- 3. Average Landed Cost (USD) ---
+        if rate:
+            landed_cost_usd = avg_cost_local / rate
+            avg_landed_cost_usd.append(round(landed_cost_usd, 6))
+        else:
+            landed_cost_usd = None
+            avg_landed_cost_usd.append(None)
+
+        # --- 4. GP (%) ---
+        try:
+            gp = (std_price_usd - landed_cost_usd) / std_price_usd * 100 if std_price_usd else None
+            gp_percent.append(round(gp, 2) if gp is not None else None)
+        except:
+            gp_percent.append(None)
+
+        # --- 5. Total Backlog Landed Cost (USD) ---
+        try:
+            total_landed = landed_cost_usd * backlog_qty if landed_cost_usd is not None else None
+            total_backlog_landed_cost_usd.append(round(total_landed, 2) if total_landed is not None else None)
+        except:
+            total_backlog_landed_cost_usd.append(None)
+
+        # --- 6. Total Backlog GP (USD) ---
+        try:
+            gp_value = backlog_amt_usd - total_landed if backlog_amt_usd is not None and total_landed is not None else None
+            total_backlog_gp_usd.append(round(gp_value, 2) if gp_value is not None else None)
+        except:
+            total_backlog_gp_usd.append(None)
+
+        # --- 7. ETD Month ---
+        try:
+            etd = row.get("ETD")
+            etd_months.append(datetime.strptime(etd, "%Y-%m-%d").strftime("%b") if etd else None)
+        except:
+            etd_months.append(None)
+
+    # Gán vào DataFrame
+    df["USD Exchange Rate"] = usd_rates
+    df["Average Landed Cost (USD)"] = avg_landed_cost_usd
+    df["GP (%)"] = gp_percent
+    df["Total Backlog Landed Cost (USD)"] = total_backlog_landed_cost_usd
+    df["Total Backlog GP (USD)"] = total_backlog_gp_usd
+    df["ETD Month"] = etd_months
+
+    return df
+
 
 # ============================
 # Hàm xử lý dữ liệu landed cost – quy đổi sang USD

@@ -28,10 +28,9 @@ def export_to_google_sheets(data: pd.DataFrame, data_type: str) -> str:
     logger.info("📄 Exporting to Google Sheets...")
 
     # Xác thực Google Sheets API (tự động chọn credentials phù hợp)
-    credentials_info = json.loads(GOOGLE_SERVICE_ACCOUNT_JSON)
     credentials = service_account.Credentials.from_service_account_info(
-        credentials_info, scopes=SCOPES
-    )
+    GOOGLE_SERVICE_ACCOUNT_JSON,
+    scopes=SCOPES)
     service = build("sheets", "v4", credentials=credentials)
     sheets_api = service.spreadsheets()
 

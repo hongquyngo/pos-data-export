@@ -54,7 +54,7 @@ def get_data_by_type(data_type: str, engine) -> pd.DataFrame:
             df = enrich_pos_data(df)
 
         elif data_type == "Backlog":
-            query = "SELECT * FROM prostechvn.order_confirmation_full_view;"
+            query = "SELECT * FROM prostechvn.backlog_full_view;"
             df = pd.read_sql(query, engine)
 
         elif data_type == "Broker Commission":
