@@ -42,7 +42,7 @@ def get_data_by_type(data_type: str, engine) -> pd.DataFrame:
             df = pd.read_sql(query, engine)
 
         elif data_type ==  "Sales by KPI Center":
-            query = "SELECT * FROM prostechvn.backlog_full_view;"
+            query = "SELECT * FROM prostechvn.sales_report_by_kpi_center_flat_view;"
             df = pd.read_sql(query, engine)
 
         elif data_type == "Backlog":
