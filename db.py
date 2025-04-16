@@ -6,7 +6,6 @@ from urllib.parse import quote_plus
 import logging
 
 from config import DB_CONFIG
-from handlers import enrich_pos_data, enrich_backlog_data  # dùng để xử lý Landed Cost enrich thêm dữ liệu
 
 # Cấu hình logger cho module này
 logger = logging.getLogger(__name__)
@@ -38,26 +37,17 @@ def get_data_by_type(data_type: str, engine) -> pd.DataFrame:
     Trả về dataframe đã xử lý tương ứng với loại dữ liệu được chọn
     """
     try:
-        if data_type == "Sales Report":
+        if data_type == "Sales by Salesperson":
             query = "SELECT * FROM prostechvn.sales_report_flat_view;"
             df = pd.read_sql(query, engine)
 
-            # Enrich dữ liệu :
-            #  Bổ sung các trường tính toán:
-            #     - USD Exchange Rate
-            #     - Average Landed Cost (USD)
-            #     - Gross Profit (%)
-            #     - Sales by Split (USD)
-            #     - Gross Profit by Split (USD)
-            #     - Invoice Month (YYYY-MM)
-
-            df = enrich_pos_data(df)
+        elif data_type ==  "Sales by KPI Center":
+            query = "SELECT * FROM prostechvn.backlog_full_view;"
+            df = pd.read_sql(query, engine)
 
         elif data_type == "Backlog":
             query = "SELECT * FROM prostechvn.backlog_full_view;"
             df = pd.read_sql(query, engine)
-
-            df = enrich_backlog_data(df)
 
         elif data_type == "Broker Commission":
             query = "SELECT * FROM prostechvn.broker_commission_earning_view;"

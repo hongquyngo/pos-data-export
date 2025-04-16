@@ -23,7 +23,8 @@ def main():
 
     # Dropdown cho người dùng chọn loại dữ liệu muốn export
     data_type = st.selectbox("Select data type to export:", [
-        "Sales Report",        # Đơn hàng đã xác nhận
+        "Sales by Salesperson",
+        "Sales by KPI Center",       
         "Backlog",                  # Đơn hàng chưa giao
         "Broker Commission"
     ])
